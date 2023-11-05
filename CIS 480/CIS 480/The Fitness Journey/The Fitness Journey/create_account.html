@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Account</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .create-account-container {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .btn-create-account {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="create-account-container">
+        <h2>Create Account</h2>
+        <p>Please provide the following information to create your account:</p>
+        <form action="register_handler.php" method="post">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="first_name">First Name:</label>
+            <input type="text" id="first_name" name="first_name" required>
+
+            <label for="last_name">Last Name:</label>
+            <input type="text" id="last_name" name="last_name" required>
+
+            <label for="birthdate">Birthdate:</label>
+            <input type="date" id="birthdate" name="birthdate" required>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+            <p>Password Requirements:</p>
+            <ul>
+                <li>At least 8 characters</li>
+                <li>Must include both uppercase and lowercase letters</li>
+                <li>Must include at least one number</li>
+                <li>Must include at least one special character (e.g., !, @, #)</li>
+            </ul>
+
+            <button type="submit">Create Account</button>
+        </form>
+    </div>
+    <script>
+        // JavaScript for password complexity validation
+        const passwordInput = document.getElementById('password');
+        passwordInput.addEventListener('input', validatePassword);
+
+        function validatePassword() {
+            const password = passwordInput.value;
+            const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@!#])[A-Za-z\d@!#]{8,}$/;
+            
+            if (!passwordPattern.test(password)) {
+                passwordInput.setCustomValidity("Password does not meet the requirements.");
+            } else {
+                passwordInput.setCustomValidity("");
+            }
+        }
+        document.getElementById('create-account-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const birthdate = document.getElementById('birthdate').value;
+            const firstName = document.getElementById('first-name').value;
+            const lastName = document.getElementById('last-name').value;
+
+            // Implement your account creation logic here
+            alert('Account created for ' + firstName + ' ' + lastName + ' with email ' + email);
+        });
+    </script>
+</body>
+</html>

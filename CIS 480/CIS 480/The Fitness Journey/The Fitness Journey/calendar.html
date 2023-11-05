@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gym Rat Calendar</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .header {
+            background-color: #333;
+            color: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        .logo img {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+        }
+        .tabs {
+            display: flex;
+            background-color: #333;
+        }
+        .tab {
+            padding: 10px 20px;
+            color: #fff;
+            text-decoration: none;
+        }
+        .tab:hover {
+            background-color: #555;
+        }
+        .content {
+            padding: 20px;
+        }
+        .calendar {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 20px;
+            background-color: #fff;
+        }
+        .calendar-day {
+            display: inline-block;
+            width: 14.28%; /* 7 days in a week */
+            box-sizing: border-box;
+            text-align: center;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+        .calendar-day:hover {
+            background-color: #f1f1f1;
+            cursor: pointer;
+        }
+        .notes-container {
+            display: none;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">
+            <img src="logo.jpg" alt="Gym Rat Logo">
+            <span class="logo-text">Gym Rat</span>
+        </div>
+        <a href="login.html" class="login-button">Login</a>
+    </div>
+    <div class="tabs">
+        <a href="home.html" class="tab">Home</a>
+        <a href="workouts.html" class="tab">Workouts</a>
+        <a href="calendar.html" class="tab">Calendar</a>
+        <a href="supplements.html" class="tab">Supplements</a>
+        <a href="about.html" class="tab">About Us</a>
+    </div>
+
+    <div class="content">
+        <h2>Gym Rat Calendar</h2>
+        <div class="calendar" id="calendar">
+        </div>
+    </div>
+
+    <div class="notes-container" id="notes-container">
+        <h3>Notes for <span id="selected-date"></span></h3>
+        <ul id="notes-list">
+        </ul>
+    </div>
+
+    <script>
+        // JavaScript for generating an interactive calendar with notes
+        const calendarContainer = document.getElementById('calendar');
+        const notesContainer = document.getElementById('notes-container');
+        const notesList = document.getElementById('notes-list');
+        const selectedDate = document.getElementById('selected-date');
+        const notes = {}; // Store notes by date (e.g., "2023-10-20": ["Note 1", "Note 2"])
+
+        // Create a calendar for the current month
+        function createCalendar(year, month) {
+            const currentDate = new Date(year, month, 1);
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+            let calendarHTML = '<div class="calendar-header">';
+            calendarHTML += '<h3>' + currentDate.toLocaleString('default', { month: 'long' }) + ' ' + year + '</h3>';
+            calendarHTML += '</div><div class="calendar-body">';
+
+            // Create a day for each day in the month
+            for (let i = 1; i <= daysInMonth; i++) {
+                const date = year + '-' + (month + 1).toString().padStart(2, '0') + '-' + i.toString().padStart(2, '0');
+                calendarHTML += '<div class="calendar-day" onclick="showNotes(\'' + date + '\')">' + i + '</div>';
+            }
+
+            calendarHTML += '</div>';
+            calendarContainer.innerHTML = calendarHTML;
+        }
+
+        // Show notes for a selected date
+        function showNotes(date) {
+            if (notes[date]) {
+                selectedDate.textContent = new Date(date).toDateString();
+                const notesHTML = notes[date].map(note => '<li>' + note + '</li>').join('');
+                notesList.innerHTML = notesHTML;
+                notesContainer.style.display = 'block';
+            } else {
+                notesContainer.style.display = 'none';
+            }
+        }
+
+        // Add a note for a specific date
+        function addNote(year, month, day) {
+            const date = year + '-' + (month + 1).toString().padStart(2, '0') + '-' + day.toString().padStart(2, '0');
+            const note = prompt('Enter your note for ' + date + ':');
+            if (note) {
+                if (!notes[date]) {
+                    notes[date] = [];
+                }
+                notes[date].push(note);
+                alert('Note added: ' + note);
+            }
+        }
+
+        // Generate the calendar for the current month
+        const currentDate = new Date();
+        createCalendar(currentDate.getFullYear(), currentDate.getMonth());
+    </script>
+</body>
+</html>
